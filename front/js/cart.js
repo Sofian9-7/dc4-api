@@ -19,18 +19,18 @@ if (fromJS === null){
     `
   addHTML.innerHTML = emptyBasketMessage
 } else {
-  let structureProduitPanier = []
+  let structurecampagnePanier = []
   for (i = 0; i < fromJS.length; i++) {
-    structureProduitPanier =
-      structureProduitPanier +
-      `<article class="cart__item" data-id="${fromJS[i].selectedProduct_id}" data-color="${fromJS[i].option_produit}">
+    structurecampagnePanier =
+      structurecampagnePanier +
+      `<article class="cart__item" data-id="${fromJS[i].selectedcampaign_id}" data-color="${fromJS[i].option_campagne}">
               <div class="cart__item__img">
                 <img src="${fromJS[i].image}" alt="Photographie d'un canapé">
               </div>
               <div class="cart__item__content">
                 <div class="cart__item__content__description">
                   <h2>${fromJS[i].name}</h2>
-                  <p>${fromJS[i].option_produit}</p>
+                  <p>${fromJS[i].option_campagne}</p>
                   <p class = "item_price">€</p>
                 </div>
                 <div class="cart__item__content__settings">
@@ -47,7 +47,7 @@ if (fromJS === null){
   }
   if (i === fromJS.length) {
     //Injection du HTML 
-    addHTML.innerHTML = structureProduitPanier
+    addHTML.innerHTML = structurecampagnePanier
   }
 }
 
@@ -57,8 +57,8 @@ if (fromJS === null){
 // Boucle forEach afin de pouvoir écouter le click sur chacun des bouttons "SUPPRIMER"
 //Nous ajoutons les produits à conserver au tableau someProduct, grace à la méthode filter
 //Enfin, nous mettons à jour le local storage;
-let someProduct = []
-const removeProduct = async (addHTML) => {
+let somecampaing = []
+const removecampaing = async (addHTML) => {
   await addHTML
   let deleteButtons = document.querySelectorAll('.deleteItem')
   deleteButtons.forEach((deleteButton) => {
@@ -72,22 +72,22 @@ const removeProduct = async (addHTML) => {
           (window.location.href = '../html/cart.html')
         )
       } else {
-        someProduct = fromJS.filter((produit) => {
+        somecampagne = fromJS.filter((campagne) => {
           if (
-            closestData.dataset.id != produit.selectedProduct_id ||
-            closestData.dataset.color != produit.option_produit
+            closestData.dataset.id != campagne.selectedcampaing_id ||
+            closestData.dataset.color != campagne.option_campagne
           ) {
             return true
           }
         })
-        localStorage.setItem('idJSON', JSON.stringify(someProduct))
-        alert('Ce produit a supprimé du panier')
+        localStorage.setItem('idJSON', JSON.stringify(somecampaign))
+        alert('Cette camapgne a été supprimé du panier')
         window.location.href = '../html/cart.html'
       }
     })
   })
 }
-removeProduct()
+removecampaing()
 
 // LE CHANGEMENT DE QUANTTITE
 // Nous attendons que l'HTML soit injecté 
@@ -104,12 +104,12 @@ const changeQuantity = async (addHTML) => {
       let closestInput = quantity.closest('input')
       let closestData = quantity.closest('article')
       const filtrage = fromJS.filter(
-        (produit) => produit.selectedProduct_id === closestData.dataset.id,
+        (campagne) => campagne.selectedcampaign_id === closestData.dataset.id,
       )
       const foundSameOption = filtrage.find(
-        (produit) => produit.option_produit === closestData.dataset.color,
+        (camapgne) => camapgne.option_campagne === closestData.dataset.color,
       )
-      if (foundSameOption.option_produit === closestData.dataset.color) {
+      if (foundSameOption.option_campagne === closestData.dataset.color) {
         const toNumber = parseInt(closestInput.value)
         foundSameOption.quantite = toNumber
         localStorage.setItem('idJSON', JSON.stringify(fromJS))
@@ -132,25 +132,25 @@ E) Nous injectons la valeur de totalQuantity dans le HTML
 */
 
 if (fromJS) {
-  function callbackTotalProducts(arr, callback) {
+  function callbackTotalcampaigns(arr, callback) {
     let newArr = []
     for (i = 0; i < arr.length; i++) {
       newArr.push(callback(arr[i]))
     }
     return newArr
   }
-  const result = callbackTotalProducts(fromJS, (val) => {
+  const result = callbackTotalcampaigns(fromJS, (val) => {
     return val.quantite
   })
   totalQuantity = 0
   for (i = 0; i < result.length; i++) {
     totalQuantity += result[i]
   }
-  const totalProducts = document.getElementById('totalQuantity')
-  totalProducts.innerHTML = totalQuantity
+  const callbackTotalcampaigns = document.getElementById('totalQuantity')
+  totalcampaigns.innerHTML = totalQuantity
 } else {
-  const totalProducts = document.getElementById('totalQuantity')
-  totalProducts.innerHTML = totalQuantity = 0
+  const totalcampaigns = document.getElementById('totalQuantity')
+  totalcampaigns.innerHTML = totalQuantity = 0
 }
 
 
@@ -162,17 +162,17 @@ if (fromJS) {
 //Au sein de cette boucle, nous appliquons la méthode .find afin que l'élément correspondant à l'ID du produit présent dans fromJS nous soit retourné
 //Pour finir, injectons dans le HTML le prix du produit retourné par find  
 if (fromJS) {
-  fetch('http://localhost:3000/api/products')
+  fetch('http://localhost:3000/api/campaigns')
     .then((res) => res.json())
     .then((res) => {
       data = res
       for (i = 0; i < fromJS.length; i++) {
         let getPrice = document.getElementsByClassName('item_price')
-        fetchedProduct = data.find(
-          (element) => element._id === fromJS[i].selectedProduct_id,
+        fetchedcampaign = data.find(
+          (element) => element._id === fromJS[i].selectedcampaign_id,
         )
         addPrice = (getPrice[i].innerHTML =
-          fetchedProduct.price + ' €')
+          fetchedcampaign.price + ' €')
       }
     })
 }
@@ -187,14 +187,14 @@ if (fromJS) {
 // Nous initions ensuite la variable sum; puis nous itérons sur la longueur de arrPrice afin d'ajouter à Sum chacune des valeurs présentes dans arrPrice
 // Pour finir, nous injectons la valeur obtenue dans Sum au HTML
 if (fromJS) {
-  fetch('http://localhost:3000/api/products')
+  fetch('http://localhost:3000/api/campaigns')
     .then((res) => res.json())
     .then((res) => {
       data = res
       let arrPrice = []
       for (i = 0; i < fromJS.length; i++) {
         const findSameID = data.find(
-          (element) => element._id === fromJS[i].selectedProduct_id,
+          (element) => element._id === fromJS[i].selectedcampaign_id,
         )
         let totalPrice = (findSameID.price * fromJS[i].quantite)
         arrPrice.push(totalPrice)
@@ -322,9 +322,9 @@ order.addEventListener('submit', (e) => {
 //Création de la reqûete à envoyer vers l'API, avec pour condition le fait que chaque input ait une valeur valide
   if (valuePrenom && valueNom && valueAdresse && valueEmail && valueVille) {
     const commandeFinal = JSON.parse(localStorage.getItem('idJSON'))
-    let products = []
-    commandeFinal.forEach((produit) =>
-      products.push(produit.selectedProduct_id),
+    let campaigns = []
+    commandeFinal.forEach((campagne) =>
+      campaigns.push(campagne.selectedcampaign_id),
     )
     //Création des objets "contact" et "products", qui seront ensuite transmis au serveur via la méthod POST, au sein de la const promise 
     const toSend = {
@@ -335,10 +335,10 @@ order.addEventListener('submit', (e) => {
         city: valueVille,
         email: valueEmail,
       },
-      products,
+      campaigns,
     }
       //Application de la méthode POST
-      const promise = fetch('http://localhost:3000/api/products/order', {
+      const promise = fetch('http://localhost:3000/api/campaigns/order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -363,3 +363,4 @@ order.addEventListener('submit', (e) => {
     alert('Remplir le formulaire correctement')
   }
 })
+
