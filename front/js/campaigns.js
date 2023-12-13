@@ -88,8 +88,8 @@ fetch('http://localhost:3000/api/campaigns')
       //Récupération des valeurs au sein de la variables "optionsProduit"
       optionscampagne = {
         name: selectedcampaign_id.name,
-        selectedProduct_id: selectedcampaign_id._id,
-        option_produit: choixForm,
+        selectedcampaign_id: selectedcampaign_id._id,
+        option_campagne: choixForm,
         quantite: choixQuantity,
         image: selectedcampaign_id.imageUrl,
       }
