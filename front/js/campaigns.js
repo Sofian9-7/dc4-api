@@ -165,7 +165,7 @@ fetch('http://localhost:3000/api/campaigns')
               }
               break //Pour sortir de la boucle for, afin d'éviter une répétition pour chaque ligne du tableau
             }
-          }Pro
+          }
         }
       } else {
         if (optionscampagne.quantite === '0') {
