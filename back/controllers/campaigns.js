@@ -1,20 +1,10 @@
 const uuid = require('uuid/v1');
-const Product = require('../models/Product');
+const Product = require('../models/campaigns');
 
 exports.getAllProducts = (req, res, next) => {
-  Product.find().then(
-    (products) => {
-      const mappedProducts = products.map((product) => {
-        product.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + product.imageUrl;
-        return product;
-      });
-      res.status(200).json(mappedProducts);
-    }
-  ).catch(
-    () => {
-      res.status(500).send(new Error('Database error!'));
-    }
-  );
+  Product.find()
+  res.status(200).json(mappedProducts);
+  
 };
 
 exports.getOneProduct = (req, res, next) => {

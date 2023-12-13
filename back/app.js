@@ -18,6 +18,6 @@ app.use(express.static('images'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-app.use('/api/products', CampaignsRoutes);
+app.use('/api/campaigns', CampaignsRoutes);
 
 module.exports = app;
