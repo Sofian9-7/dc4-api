@@ -346,7 +346,7 @@ order.addEventListener('submit', (e) => {
       body: JSON.stringify(toSend),
     })
     
-    //Une fois que promise a été executée, nous enclenchons response, contenant le bloc try. Ce dernier ne comprend qu'une instruction. 
+    //Une fois que promise a été executée enclenchons response, contenant le bloc try. Ce dernier ne comprend qu'une instruction. 
     //Si le statut de response est ok, alors nous redirigeons l'utilisateur vers la page confirmation, à laquelle nous passons contenu.orderId en paramètre d'URL
     promise.then(async (response) => {
       try {
